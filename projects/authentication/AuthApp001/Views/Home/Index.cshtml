@@ -1,0 +1,38 @@
+﻿<h1>Hello World</h1>
+
+<a asp-action="UsersOnly" asp-controller="Home">User's Only Page'</a>
+<a asp-action="AdminsOnly" asp-controller="Home">Admin's Only Page'</a>
+
+<p>
+    Currently, the user is @(User.Identity?.Name ?? "Anonymous")
+</p>
+
+<h2>Claims:</h2>
+@if (User.Identity?.IsAuthenticated ?? false)
+{
+    <p>Authenticated</p>
+    <form asp-action="Logout" asp-controller="Auth">
+        <button type="submit" class="btn btn-primary">Log Out</button>
+    </form>
+}
+else
+{
+    <p>Not authenticated</p>
+    <form asp-action="Login" asp-controller="Auth">
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+}
+@if (User.Claims.Any())
+{
+    <h2>Claims</h2>
+    <ul>
+        @foreach (var claim in User.Claims)
+        {
+            <li>@claim.Type: @claim.Value</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No claims</p>
+}
